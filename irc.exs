@@ -27,7 +27,7 @@ defmodule Irc do
     if connected == true do
       data = recv(socket)
       if data != "" do
-        if String.slice(data, 0..4) == "PING" do
+        if String.slice(data, 0..3) == "PING" do
           pong = "PONG " <> List.last(String.split(data[1], " "))
           sendAll(socket, pong)
         end
