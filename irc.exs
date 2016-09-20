@@ -19,7 +19,7 @@ defmodule Irc do
   def recv(socket) do
     {:ok, data} = :gen_tcp.recv(socket, 0)
     IO.puts(data)
-    data
+    String.replace(data, "\r\n", "")
   end
 
   def loop(socket) do 
@@ -28,7 +28,7 @@ defmodule Irc do
       data = recv(socket)
       if data != "" do
         if String.slice(data, 0..3) == "PING" do
-          pong = "PONG " <> List.last(String.split(data[1], " "))
+          pong = "PONG " <> List.last(String.split(data, " "))
           sendAll(socket, pong)
         end
         loop(socket)
